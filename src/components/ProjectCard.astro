@@ -1,0 +1,33 @@
+---
+import type { CollectionEntry } from 'astro:content';
+
+interface Props {
+  project: CollectionEntry<'projects'>;
+}
+
+const { project } = Astro.props;
+const { title, description, client, tags, repo, demo } = project.data;
+---
+
+<article class="flex flex-col rounded-xl border border-zinc-200 p-5 transition-colors hover:border-accent dark:border-zinc-800">
+  {client && <p class="text-xs font-medium tracking-wide text-accent uppercase">{client}</p>}
+  <h3 class="mt-1 text-lg font-semibold">{title}</h3>
+  <p class="mt-2 flex-1 text-sm text-zinc-600 dark:text-zinc-400">{description}</p>
+  {
+    tags.length > 0 && (
+      <ul class="mt-4 flex flex-wrap gap-2">
+        {tags.map((tag) => (
+          <li class="rounded-full bg-zinc-100 px-2.5 py-0.5 text-xs dark:bg-zinc-800">{tag}</li>
+        ))}
+      </ul>
+    )
+  }
+  {
+    (repo || demo) && (
+      <div class="mt-4 flex gap-4 text-sm font-medium">
+        {repo && <a href={repo} target="_blank" rel="noopener noreferrer" class="hover:text-accent">Código →</a>}
+        {demo && <a href={demo} target="_blank" rel="noopener noreferrer" class="hover:text-accent">Demo →</a>}
+      </div>
+    )
+  }
+</article>

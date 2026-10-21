@@ -1,0 +1,18 @@
+---
+import SectionTitle from '../SectionTitle.astro';
+import { SITE, SOCIAL_LINKS } from '../../data/site';
+---
+
+<section id="contacto" class="py-16">
+  <SectionTitle title="Contacto" subtitle="¿Tienes un proyecto o una propuesta? Escríbeme." />
+  <a href={`mailto:${SITE.email}`} class="text-lg font-medium text-accent hover:underline">{SITE.email}</a>
+  <ul class="mt-6 flex gap-4 text-sm">
+    {
+      SOCIAL_LINKS.map(({ href, label }) => (
+        <li>
+          <a href={href} target="_blank" rel="noopener noreferrer" class="hover:text-accent">{label}</a>
+        </li>
+      ))
+    }
+  </ul>
+</section>

@@ -1,0 +1,15 @@
+@import "tailwindcss";
+
+/* Modo oscuro controlado por la clase .dark en <html> (ver Layout y Header) */
+@custom-variant dark (&:where(.dark, .dark *));
+
+@theme {
+  --font-sans: "Inter", ui-sans-serif, system-ui, sans-serif;
+  --color-accent: oklch(0.58 0.13 155);
+}
+
+html {
+  scroll-behavior: smooth;
+  /* Evita que el menú flotante tape el título al saltar a una sección */
+  scroll-padding-top: 6rem;
+}

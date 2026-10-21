@@ -1,0 +1,58 @@
+---
+import SectionTitle from '../SectionTitle.astro';
+import { ABOUT, EDUCATION, LANGUAGES, SKILL_GROUPS } from '../../data/site';
+---
+
+<section id="sobre-mi" class="py-16">
+  <SectionTitle title="Sobre mí" />
+  <div class="max-w-2xl space-y-4 text-zinc-700 dark:text-zinc-300">
+    {ABOUT.map((paragraph) => <p>{paragraph}</p>)}
+  </div>
+
+  <h3 class="mt-12 mb-6 text-lg font-semibold">Competencias técnicas</h3>
+  <div class="grid gap-6 sm:grid-cols-2">
+    {
+      SKILL_GROUPS.map(({ title, skills }) => (
+        <div>
+          <p class="mb-3 text-sm font-medium text-zinc-500">{title}</p>
+          <ul class="flex flex-wrap gap-2">
+            {skills.map((skill) => (
+              <li class="rounded-lg border border-zinc-200 px-3 py-1 text-sm dark:border-zinc-800">{skill}</li>
+            ))}
+          </ul>
+        </div>
+      ))
+    }
+  </div>
+
+  <div class="mt-12 grid gap-10 sm:grid-cols-2">
+    <div>
+      <h3 class="mb-4 text-lg font-semibold">Formación</h3>
+      <ul class="space-y-4">
+        {
+          EDUCATION.map(({ title, center, period }) => (
+            <li>
+              <p class="font-medium">{title}</p>
+              <p class="text-sm text-zinc-500">
+                {center} · {period}
+              </p>
+            </li>
+          ))
+        }
+      </ul>
+    </div>
+    <div>
+      <h3 class="mb-4 text-lg font-semibold">Idiomas</h3>
+      <ul class="space-y-4">
+        {
+          LANGUAGES.map(({ name, level }) => (
+            <li>
+              <p class="font-medium">{name}</p>
+              <p class="text-sm text-zinc-500">{level}</p>
+            </li>
+          ))
+        }
+      </ul>
+    </div>
+  </div>
+</section>

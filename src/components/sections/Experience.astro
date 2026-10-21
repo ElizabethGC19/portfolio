@@ -1,0 +1,31 @@
+---
+import SectionTitle from '../SectionTitle.astro';
+import { EXPERIENCE } from '../../data/site';
+---
+
+<section id="experiencia" class="py-16">
+  <SectionTitle title="Experiencia" />
+  <ol class="space-y-10 border-l border-zinc-200 dark:border-zinc-800">
+    {
+      EXPERIENCE.map(({ role, company, location, period, highlights }) => (
+        <li class="relative pl-6">
+          <span class="absolute top-1.5 -left-1.5 size-3 rounded-full bg-accent" aria-hidden="true" />
+          <p class="text-sm text-zinc-500">
+            {period} · {location}
+          </p>
+          <h3 class="mt-1 text-lg font-semibold">
+            {role} <span class="font-normal text-zinc-500">· {company}</span>
+          </h3>
+          <ul class="mt-4 space-y-3">
+            {highlights.map(({ title, text }) => (
+              <li>
+                <p class="font-medium">{title}</p>
+                <p class="text-zinc-600 dark:text-zinc-400">{text}</p>
+              </li>
+            ))}
+          </ul>
+        </li>
+      ))
+    }
+  </ol>
+</section>

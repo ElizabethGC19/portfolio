@@ -1,0 +1,70 @@
+---
+import { NAV_LINKS } from '../data/site';
+---
+
+<header class="fixed inset-x-0 top-4 z-50 flex justify-center px-4">
+  <nav
+    aria-label="Principal"
+    class="flex items-center rounded-full border border-zinc-200/80 bg-white/70 px-2 py-1.5 shadow-lg shadow-black/5 backdrop-blur-md dark:border-zinc-700/60 dark:bg-zinc-900/70 dark:shadow-black/30"
+  >
+    <ul class="flex items-center">
+      {
+        NAV_LINKS.map(({ href, label }) => (
+          <li>
+            <a
+              href={href}
+              data-nav-link
+              class="block rounded-full px-2 py-1.5 text-xs font-medium text-zinc-700 transition-colors hover:text-accent aria-[current=location]:text-accent sm:px-3 sm:text-sm dark:text-zinc-200"
+            >
+              {label}
+            </a>
+          </li>
+        ))
+      }
+    </ul>
+    <span class="mx-1 h-5 w-px bg-zinc-300 dark:bg-zinc-700" aria-hidden="true"></span>
+    <button
+      id="theme-toggle"
+      type="button"
+      aria-label="Cambiar tema"
+      class="rounded-full p-2 text-zinc-700 transition-colors hover:text-accent dark:text-zinc-200"
+    >
+      <!-- Luna (se muestra en modo claro) -->
+      <svg class="size-4 dark:hidden" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">
+        <path d="M21 12.79A9 9 0 1 1 11.21 3 7 7 0 0 0 21 12.79z"></path>
+      </svg>
+      <!-- Sol (se muestra en modo oscuro) -->
+      <svg class="hidden size-4 dark:block" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">
+        <circle cx="12" cy="12" r="4"></circle>
+        <path d="M12 2v2M12 20v2M4.93 4.93l1.41 1.41M17.66 17.66l1.41 1.41M2 12h2M20 12h2M4.93 19.07l1.41-1.41M17.66 6.34l1.41-1.41"></path>
+      </svg>
+    </button>
+  </nav>
+</header>
+
+<script>
+  // Cambio de tema claro/oscuro
+  document.getElementById('theme-toggle')?.addEventListener('click', () => {
+    const isDark = document.documentElement.classList.toggle('dark');
+    try {
+      localStorage.setItem('theme', isDark ? 'dark' : 'light');
+    } catch {}
+  });
+
+  // Resalta en el menú la sección visible
+  const links = document.querySelectorAll<HTMLAnchorElement>('[data-nav-link]');
+  const observer = new IntersectionObserver(
+    (entries) => {
+      for (const entry of entries) {
+        if (!entry.isIntersecting) continue;
+        links.forEach((link) => {
+          const active = link.hash === `#${entry.target.id}`;
+          link.toggleAttribute('aria-current', active);
+          if (active) link.setAttribute('aria-current', 'location');
+        });
+      }
+    },
+    { rootMargin: '-50% 0px -50% 0px' },
+  );
+  document.querySelectorAll('main section[id]').forEach((section) => observer.observe(section));
+</script>

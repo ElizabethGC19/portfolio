@@ -1,0 +1,17 @@
+---
+import { getCollection } from 'astro:content';
+import SectionTitle from '../SectionTitle.astro';
+import ProjectCard from '../ProjectCard.astro';
+
+// Destacados primero, luego por el campo order
+const projects = (await getCollection('projects')).sort(
+  (a, b) => Number(b.data.featured) - Number(a.data.featured) || a.data.order - b.data.order,
+);
+---
+
+<section id="proyectos" class="py-16">
+  <SectionTitle title="Proyectos" subtitle="Algunos de los proyectos en los que he trabajado." />
+  <div class="grid gap-4 sm:grid-cols-2">
+    {projects.map((project) => <ProjectCard project={project} />)}
+  </div>
+</section>
