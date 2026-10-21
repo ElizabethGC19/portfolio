@@ -2,8 +2,13 @@
 import SocialIcon from '../SocialIcon.astro';
 import { SITE, SOCIAL_LINKS } from '../../data/site';
 
-const secondaryBtn =
-  'inline-flex items-center gap-1.5 rounded-lg border border-zinc-300 px-3 py-1.5 text-[13px] font-medium transition-colors hover:border-accent hover:text-accent dark:border-zinc-700';
+const btn = 'inline-flex items-center gap-1.5 rounded-lg border px-3 py-1.5 text-[13px] font-medium transition-colors';
+const neutralBtn = `${btn} border-zinc-300 hover:border-accent hover:text-accent dark:border-zinc-700`;
+// Colores de marca: azul de LinkedIn y gris oscuro de GitHub (su negro oficial no se vería en modo oscuro)
+const brandBtn: Record<string, string> = {
+  LinkedIn: `${btn} border-transparent bg-[#0A66C2] text-white hover:bg-[#004182]`,
+  GitHub: `${btn} border-transparent bg-[#24292f] text-white hover:bg-[#32383f] dark:border-zinc-700`,
+};
 // LinkedIn primero, luego GitHub
 const socials = ['LinkedIn', 'GitHub'].flatMap((label) => SOCIAL_LINKS.filter((link) => link.label === label));
 ---
@@ -36,13 +41,13 @@ const socials = ['LinkedIn', 'GitHub'].flatMap((label) => SOCIAL_LINKS.filter((l
       </a>
       {
         socials.map(({ href, label }) => (
-          <a href={href} target="_blank" rel="noopener noreferrer" class={secondaryBtn}>
+          <a href={href} target="_blank" rel="noopener noreferrer" class={brandBtn[label] ?? neutralBtn}>
             <SocialIcon name={label} class="size-3.5" />
             {label}
           </a>
         ))
       }
-      <a href={`mailto:${SITE.email}`} class={secondaryBtn}>
+      <a href={`mailto:${SITE.email}`} class={neutralBtn}>
         <SocialIcon name="Email" class="size-3.5" />
         Email
       </a>

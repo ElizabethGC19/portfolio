@@ -13,7 +13,9 @@ const { title, description, client, category, image, tags, repo, demo } = projec
 const showMedia = Boolean(image) || category === 'personal';
 ---
 
-<article class="group flex flex-col overflow-hidden rounded-xl border border-zinc-200 transition-[border-color,box-shadow] duration-300 hover:border-accent hover:shadow-[0_0_24px_-4px_var(--color-accent)] dark:border-zinc-800">
+<article data-reflective class="group relative flex flex-col overflow-hidden rounded-xl border border-zinc-200 transition-[border-color,box-shadow] duration-300 hover:border-accent hover:shadow-[0_4px_10px_-4px_color-mix(in_oklab,var(--color-accent)_60%,black),0_10px_22px_-10px_var(--color-accent),0_0_12px_-6px_var(--color-accent)] dark:border-zinc-800">
+  <!-- Reflejo que sigue al cursor (inspirado en React Bits "Reflective Card") -->
+  <span class="reflective-sheen" aria-hidden="true"></span>
   {
     showMedia && (
       <div class="aspect-video overflow-hidden border-b border-zinc-200 bg-zinc-100 dark:border-zinc-800 dark:bg-zinc-900">
@@ -62,3 +64,16 @@ const showMedia = Boolean(image) || category === 'personal';
     }
   </div>
 </article>
+
+<script>
+  // Pasa la posición del cursor (en %) al reflejo de cada tarjeta
+  document.querySelectorAll<HTMLElement>('[data-reflective]').forEach((card) => {
+    const sheen = card.querySelector<HTMLElement>('.reflective-sheen');
+    if (!sheen) return;
+    card.addEventListener('pointermove', (e) => {
+      const rect = card.getBoundingClientRect();
+      sheen.style.setProperty('--mx', `${((e.clientX - rect.left) / rect.width) * 100}%`);
+      sheen.style.setProperty('--my', `${((e.clientY - rect.top) / rect.height) * 100}%`);
+    });
+  });
+</script>

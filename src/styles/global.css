@@ -33,6 +33,59 @@
   }
 }
 
+/* Reflejo metálico de las tarjetas de proyecto (inspirado en React Bits "Reflective Card"):
+   franjas de luz difuminadas y onduladas que se desplazan con el cursor */
+@property --mx {
+  syntax: "<percentage>";
+  inherits: false;
+  initial-value: 50%;
+}
+
+@property --my {
+  syntax: "<percentage>";
+  inherits: false;
+  initial-value: 50%;
+}
+
+.reflective-sheen {
+  --sheen: rgb(255 255 255 / 0.14);
+  position: absolute;
+  inset: 0;
+  z-index: 10;
+  pointer-events: none;
+  opacity: 0;
+  background:
+    linear-gradient(
+      115deg,
+      transparent 25%,
+      var(--sheen) 32%,
+      transparent 38%,
+      transparent 47%,
+      var(--sheen) 51%,
+      transparent 55%,
+      transparent 62%,
+      var(--sheen) 70%,
+      transparent 78%
+    ),
+    radial-gradient(70% 90% at var(--mx) var(--my), rgb(255 255 255 / 0.06), transparent 70%);
+  background-size: 300% 300%, 100% 100%;
+  /* El reflejo se mueve en sentido contrario al cursor, como en una superficie real */
+  background-position: calc(100% - var(--mx)) calc(100% - var(--my)), 0 0;
+  filter: url(#reflective-warp);
+  transition:
+    opacity 0.5s ease,
+    --mx 0.4s ease-out,
+    --my 0.4s ease-out;
+}
+
+:root:not(.dark) .reflective-sheen {
+  --sheen: rgb(24 24 27 / 0.05);
+}
+
+.group:hover > .reflective-sheen {
+  opacity: 1;
+}
+
 html {
   scroll-behavior: smooth;
   /* Evita que el menú flotante tape el título al saltar a una sección */

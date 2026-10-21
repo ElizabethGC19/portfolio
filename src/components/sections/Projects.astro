@@ -14,6 +14,14 @@ const github = SOCIAL_LINKS.find((link) => link.label === 'GitHub')?.href;
 ---
 
 <section id="proyectos" class="py-16">
+  <!-- Filtro de ondulación para el reflejo de las tarjetas (.reflective-sheen) -->
+  <svg class="absolute size-0" aria-hidden="true">
+    <filter id="reflective-warp">
+      <feTurbulence type="fractalNoise" baseFrequency="0.006 0.012" numOctaves="2" seed="3" />
+      <feDisplacementMap in="SourceGraphic" scale="40" />
+      <feGaussianBlur stdDeviation="3" />
+    </filter>
+  </svg>
   <SectionTitle title="Proyectos" subtitle="Algunos de los proyectos en los que he trabajado." />
   <div class="grid gap-4 sm:grid-cols-2">
     {professional.map((project) => <ProjectCard project={project} />)}

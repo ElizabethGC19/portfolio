@@ -3,14 +3,14 @@ export const SITE = {
   name: 'Elizabeth García',
   role: 'Desarrolladora Full-Stack',
   description:
-    'Desarrolladora Full-Stack con +2 años de experiencia y perfil orientado al back-end, especializada en PHP (Laravel, Filament) y en React y TypeScript.',
+    'Desarrolladora Full-Stack con +2 años de experiencia y perfil orientado al back-end, especializada en PHP (Laravel, Filament) y en React.',
   email: 'eligc1919@gmail.com',
   location: 'Alicante, España',
   // Ruta a la foto dentro de /public (p. ej. '/foto.jpg').
   photo: '',
 };
 
-// Cada enlace apunta a una sección (id) de la página principal
+// Cada enlace apunta a una sección de la página principal
 export const NAV_LINKS = [
   { href: '/#experiencia', label: 'Experiencia' },
   { href: '/#proyectos', label: 'Proyectos' },
@@ -24,7 +24,7 @@ export const SOCIAL_LINKS = [
 ];
 
 export const ABOUT = [
-  'Desarrolladora Full-Stack con más de 2 años de experiencia en entornos de producción y un perfil orientado al back-end. Especializada en el ecosistema PHP (Laravel, Filament) y en React y TypeScript en el front-end.',
+  'Desarrolladora Full-Stack con más de 2 años de experiencia en entornos de producción y un perfil orientado al back-end. Especializada en el ecosistema PHP (Laravel, Filament) y en React en el front-end.',
   'Tengo experiencia en arquitecturas desacopladas con Domain-Driven Design (DDD) y principios SOLID, integraciones para plataformas B2B y e-commerce (Shopify, PrestaShop), modernización de sistemas legacy y mentorización de perfiles junior mediante code reviews.',
 ];
 
