@@ -2,16 +2,41 @@
 import { getCollection } from 'astro:content';
 import SectionTitle from '../SectionTitle.astro';
 import ProjectCard from '../ProjectCard.astro';
+import { SOCIAL_LINKS } from '../../data/site';
 
 // Destacados primero, luego por el campo order
 const projects = (await getCollection('projects')).sort(
   (a, b) => Number(b.data.featured) - Number(a.data.featured) || a.data.order - b.data.order,
 );
+const professional = projects.filter((p) => p.data.category === 'profesional');
+const personal = projects.filter((p) => p.data.category === 'personal');
+const github = SOCIAL_LINKS.find((link) => link.label === 'GitHub')?.href;
 ---
 
 <section id="proyectos" class="py-16">
   <SectionTitle title="Proyectos" subtitle="Algunos de los proyectos en los que he trabajado." />
   <div class="grid gap-4 sm:grid-cols-2">
-    {projects.map((project) => <ProjectCard project={project} />)}
+    {professional.map((project) => <ProjectCard project={project} />)}
   </div>
+
+  {
+    personal.length > 0 && (
+      <div class="mt-14">
+        <div class="mb-6 flex flex-wrap items-end justify-between gap-2 border-b border-zinc-200 pb-4 dark:border-zinc-800">
+          <div>
+            <h3 class="text-2xl font-semibold">Proyectos personales</h3>
+            <p class="mt-1 text-sm text-zinc-600 dark:text-zinc-400">Lo que construyo por mi cuenta para aprender y experimentar.</p>
+          </div>
+          {github && (
+            <a href={github} target="_blank" rel="noopener noreferrer" class="text-sm font-medium text-accent hover:underline">
+              Ver todo en GitHub →
+            </a>
+          )}
+        </div>
+        <div class="grid gap-4 sm:grid-cols-2">
+          {personal.map((project) => <ProjectCard project={project} />)}
+        </div>
+      </div>
+    )
+  }
 </section>

@@ -3,9 +3,11 @@ export const SITE = {
   name: 'Elizabeth García',
   role: 'Desarrolladora Full-Stack',
   description:
-    'Desarrolladora Full-Stack con perfil orientado al back-end, especializada en PHP (Laravel, Filament) y en React y TypeScript.',
+    'Desarrolladora Full-Stack con +2 años de experiencia y perfil orientado al back-end, especializada en PHP (Laravel, Filament) y en React y TypeScript.',
   email: 'eligc1919@gmail.com',
   location: 'Alicante, España',
+  // Ruta a la foto dentro de /public (p. ej. '/foto.jpg').
+  photo: '',
 };
 
 // Cada enlace apunta a una sección (id) de la página principal
@@ -17,8 +19,8 @@ export const NAV_LINKS = [
 ];
 
 export const SOCIAL_LINKS = [
-  { href: 'https://github.com/', label: 'GitHub' },
-  { href: 'https://linkedin.com/', label: 'LinkedIn' },
+  { href: 'https://github.com/ElizabethGC19', label: 'GitHub' },
+  { href: 'https://www.linkedin.com/in/elizabeth-garc%C3%ADa-cerd%C3%A1-176565258/', label: 'LinkedIn' },
 ];
 
 export const ABOUT = [

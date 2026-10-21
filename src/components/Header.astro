@@ -7,14 +7,20 @@ import { NAV_LINKS } from '../data/site';
     aria-label="Principal"
     class="flex items-center rounded-full border border-zinc-200/80 bg-white/70 px-2 py-1.5 shadow-lg shadow-black/5 backdrop-blur-md dark:border-zinc-700/60 dark:bg-zinc-900/70 dark:shadow-black/30"
   >
-    <ul class="flex items-center">
+    <ul data-nav-list class="relative flex items-center">
+      <!-- Indicador "rubber": se estira hacia el destino y se encoge al llegar -->
+      <span
+        data-nav-thumb
+        aria-hidden="true"
+        class="pointer-events-none absolute rounded-full bg-accent opacity-0 transition-opacity duration-200"
+      ></span>
       {
         NAV_LINKS.map(({ href, label }) => (
           <li>
             <a
               href={href}
               data-nav-link
-              class="block rounded-full px-2 py-1.5 text-xs font-medium text-zinc-700 transition-colors hover:text-accent aria-[current=location]:text-accent sm:px-3 sm:text-sm dark:text-zinc-200"
+              class="relative z-10 block rounded-full px-2 py-1.5 text-xs font-medium text-zinc-700 transition-colors duration-300 hover:text-accent aria-[current=location]:text-white sm:px-3 sm:text-sm dark:text-zinc-200"
             >
               {label}
             </a>
@@ -51,20 +57,84 @@ import { NAV_LINKS } from '../data/site';
     } catch {}
   });
 
+  const thumb = document.querySelector<HTMLElement>('[data-nav-thumb]')!;
+  const links = [...document.querySelectorAll<HTMLAnchorElement>('[data-nav-link]')];
+  const reducedMotion = matchMedia('(prefers-reduced-motion: reduce)');
+
+  let current: HTMLAnchorElement | null = null;
+  // Mientras dura el scroll tras un clic, ignoramos las secciones intermedias
+  let scrollLock = false;
+
+  const px = (n: number) => `${n}px`;
+
+  function placeThumb(link: HTMLAnchorElement) {
+    Object.assign(thumb.style, {
+      left: px(link.offsetLeft),
+      width: px(link.offsetWidth),
+      top: px(link.offsetTop),
+      height: px(link.offsetHeight),
+    });
+  }
+
+  function setActive(link: HTMLAnchorElement | null) {
+    if (link === current) return;
+    const previous = current;
+    current = link;
+
+    links.forEach((l) => {
+      if (l === link) l.setAttribute('aria-current', 'location');
+      else l.removeAttribute('aria-current');
+    });
+
+    if (!link) {
+      thumb.style.opacity = '0';
+      return;
+    }
+
+    placeThumb(link);
+    thumb.style.opacity = '1';
+    if (!previous || reducedMotion.matches) return;
+
+    // Estira el indicador hasta cubrir origen y destino, y luego lo encoge con rebote
+    const fromLeft = previous.offsetLeft;
+    const fromRight = fromLeft + previous.offsetWidth;
+    const toLeft = link.offsetLeft;
+    const toRight = toLeft + link.offsetWidth;
+    const spanLeft = Math.min(fromLeft, toLeft);
+    const spanWidth = Math.max(fromRight, toRight) - spanLeft;
+
+    thumb.animate(
+      [
+        { left: px(fromLeft), width: px(fromRight - fromLeft), transform: 'scaleY(1)', easing: 'cubic-bezier(0.4, 0, 0.7, 1)' },
+        { left: px(spanLeft), width: px(spanWidth), transform: 'scaleY(0.78)', offset: 0.4, easing: 'cubic-bezier(0.2, 1.7, 0.4, 1)' },
+        { left: px(toLeft), width: px(toRight - toLeft), transform: 'scaleY(1)' },
+      ],
+      { duration: 600 },
+    );
+  }
+
+  links.forEach((link) =>
+    link.addEventListener('click', () => {
+      setActive(link);
+      scrollLock = true;
+      const unlock = () => (scrollLock = false);
+      addEventListener('scrollend', unlock, { once: true });
+      setTimeout(unlock, 1200);
+    }),
+  );
+
   // Resalta en el menú la sección visible
-  const links = document.querySelectorAll<HTMLAnchorElement>('[data-nav-link]');
   const observer = new IntersectionObserver(
     (entries) => {
+      if (scrollLock) return;
       for (const entry of entries) {
         if (!entry.isIntersecting) continue;
-        links.forEach((link) => {
-          const active = link.hash === `#${entry.target.id}`;
-          link.toggleAttribute('aria-current', active);
-          if (active) link.setAttribute('aria-current', 'location');
-        });
+        setActive(links.find((l) => l.hash === `#${entry.target.id}`) ?? null);
       }
     },
     { rootMargin: '-50% 0px -50% 0px' },
   );
   document.querySelectorAll('main section[id]').forEach((section) => observer.observe(section));
+
+  addEventListener('resize', () => current && placeThumb(current));
 </script>

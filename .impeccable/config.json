@@ -1,0 +1,17 @@
+{
+  "detector": {
+    "ignoreRules": [],
+    "ignoreFiles": [],
+    "ignoreValues": [
+      {
+        "rule": "gradient-text",
+        "value": "*",
+        "files": [
+          "src/styles/global.css"
+        ],
+        "createdAt": "2026-10-21T09:24:45.673Z",
+        "reason": "User explicitly requested the reactbits.dev Shiny Text effect on their name; the gradient is that effect"
+      }
+    ]
+  }
+}

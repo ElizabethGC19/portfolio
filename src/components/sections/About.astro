@@ -9,7 +9,7 @@ import { ABOUT, EDUCATION, LANGUAGES, SKILL_GROUPS } from '../../data/site';
     {ABOUT.map((paragraph) => <p>{paragraph}</p>)}
   </div>
 
-  <h3 class="mt-12 mb-6 text-lg font-semibold">Competencias técnicas</h3>
+  <h3 class="mt-12 mb-6 border-b border-zinc-200 pb-3 text-xl font-semibold dark:border-zinc-800">Competencias técnicas</h3>
   <div class="grid gap-6 sm:grid-cols-2">
     {
       SKILL_GROUPS.map(({ title, skills }) => (
@@ -27,7 +27,7 @@ import { ABOUT, EDUCATION, LANGUAGES, SKILL_GROUPS } from '../../data/site';
 
   <div class="mt-12 grid gap-10 sm:grid-cols-2">
     <div>
-      <h3 class="mb-4 text-lg font-semibold">Formación</h3>
+      <h3 class="mb-4 border-b border-zinc-200 pb-3 text-xl font-semibold dark:border-zinc-800">Formación</h3>
       <ul class="space-y-4">
         {
           EDUCATION.map(({ title, center, period }) => (
@@ -42,7 +42,7 @@ import { ABOUT, EDUCATION, LANGUAGES, SKILL_GROUPS } from '../../data/site';
       </ul>
     </div>
     <div>
-      <h3 class="mb-4 text-lg font-semibold">Idiomas</h3>
+      <h3 class="mb-4 border-b border-zinc-200 pb-3 text-xl font-semibold dark:border-zinc-800">Idiomas</h3>
       <ul class="space-y-4">
         {
           LANGUAGES.map(({ name, level }) => (

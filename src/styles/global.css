@@ -8,6 +8,31 @@
   --color-accent: oklch(0.58 0.13 155);
 }
 
+/* Brillo que recorre el texto (inspirado en React Bits "Shiny Text").
+   Usa currentColor como base, así respeta el color del tema */
+.shiny-text {
+  background: linear-gradient(120deg, currentColor 40%, var(--color-accent) 50%, currentColor 60%) 0 0 / 200% 100%;
+  -webkit-background-clip: text;
+  background-clip: text;
+  -webkit-text-fill-color: transparent;
+  animation: shine 5s linear infinite;
+}
+
+@keyframes shine {
+  from {
+    background-position: 100% 0;
+  }
+  to {
+    background-position: -100% 0;
+  }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .shiny-text {
+    animation: none;
+  }
+}
+
 html {
   scroll-behavior: smooth;
   /* Evita que el menú flotante tape el título al saltar a una sección */
