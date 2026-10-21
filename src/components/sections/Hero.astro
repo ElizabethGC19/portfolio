@@ -10,7 +10,8 @@ const brandBtn: Record<string, string> = {
   GitHub: `${btn} border-transparent bg-[#24292f] text-white hover:bg-[#32383f] dark:border-zinc-700`,
 };
 // LinkedIn primero, luego GitHub
-const socials = ['LinkedIn', 'GitHub'].flatMap((label) => SOCIAL_LINKS.filter((link) => link.label === label));
+const [before, after] = SITE.description.split(SITE.highlight);
+const socials =['LinkedIn', 'GitHub'].flatMap((label) => SOCIAL_LINKS.filter((link) => link.label === label));
 ---
 
 <section id="inicio" class="flex flex-col gap-10 py-16 sm:flex-row sm:items-center">
@@ -33,7 +34,17 @@ const socials = ['LinkedIn', 'GitHub'].flatMap((label) => SOCIAL_LINKS.filter((l
     <p class="text-sm font-medium text-accent">{SITE.role}</p>
     <h1 class="mt-2 text-4xl font-bold tracking-tight sm:text-5xl">Hola, soy <span class="shiny-text">{SITE.name}</span>.</h1>
     <p class="mt-6 max-w-3xl text-xl leading-relaxed text-zinc-700 sm:text-2xl dark:text-zinc-300">
-      {SITE.description}
+      {
+        after !== undefined ? (
+          <>
+            {before}
+            <span class="font-medium text-accent">{SITE.highlight}</span>
+            {after}
+          </>
+        ) : (
+          SITE.description
+        )
+      }
     </p>
     <div class="mt-8 flex flex-wrap gap-3">
       <a href="#proyectos" class="rounded-lg bg-accent px-3 py-1.5 text-[13px] font-medium text-white hover:opacity-90">

@@ -4,6 +4,8 @@ export const SITE = {
   role: 'Desarrolladora Full-Stack',
   description:
     'Desarrolladora Full-Stack con +2 años de experiencia y perfil orientado al back-end, especializada en PHP (Laravel, Filament) y en React.',
+  // Fragmento de la descripción que se resalta en verde en la presentación
+  highlight: 'PHP (Laravel, Filament) y en React',
   email: 'eligc1919@gmail.com',
   location: 'Alicante, España',
   // Ruta a la foto dentro de /public (p. ej. '/foto.jpg').
